@@ -50,16 +50,19 @@ export default function App() {
 
     // Subscribe to accelerometer
     accelSub = Accelerometer.addListener((data) => {
+      setAccelData(data);
       collectData(data, "accelerometer", startTime);
     });
 
     // Subscribe to gyroscope
     gyroSub = Gyroscope.addListener((data) => {
+      setGyroData(data);
       collectData(data, "gyroscope", startTime);
     });
 
     // Subscribe to magnetometer
     magSub = Magnetometer.addListener((data) => {
+      setMagData(data);
       collectData(data, "magnetometer", startTime);
     });
 
@@ -102,7 +105,7 @@ export default function App() {
       // console.log("Collected Data:", collectedData); // To ensure the data is formatted correctly before sending
 
       const response = await axios.post(
-        "http://10.60.0.192:8000/predict/",
+        "https://sensor-mobile-app.onrender.com/predict/",
         { sensor_data: collectedData },
         {
           headers: {
@@ -121,15 +124,6 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>
-        Accelerometer: x: {accelData.x}, y: {accelData.y}, z: {accelData.z}
-      </Text>
-      <Text style={styles.text}>
-        Gyroscope: x: {gyroData.x}, y: {gyroData.y}, z: {gyroData.z}
-      </Text>
-      <Text style={styles.text}>
-        Magnetometer: x: {magData.x}, y: {magData.y}, z: {magData.z}
-      </Text>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           onPress={recording ? null : startRecording}

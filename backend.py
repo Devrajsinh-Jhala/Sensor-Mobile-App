@@ -68,7 +68,6 @@ class SensorData(BaseModel):
 def extract_features(sensor_data):
     
     df = pd.DataFrame(sensor_data)
-    print(len(df))
     features = {}
     
     def calculate_statistics(axis_data, axis_name):
@@ -117,7 +116,7 @@ def extract_features(sensor_data):
 # Function to handle prediction request
 def predict_activity(sensor_data):
     features_df = extract_features(sensor_data)
-    print(len(features_df))
+    
 
     # Load your pre-trained model
     model = joblib.load('random_forest_model.joblib')
@@ -126,7 +125,6 @@ def predict_activity(sensor_data):
 
     # Perform prediction
     prediction = model.predict(features_df)
-    print("Prediction: ",prediction)
     return {
         "prediction": prediction.tolist() if isinstance(prediction, np.ndarray) else prediction
     }
