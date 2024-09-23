@@ -4,6 +4,15 @@ import { Accelerometer, Gyroscope, Magnetometer } from "expo-sensors";
 import axios from "axios";
 
 export default function App() {
+  const activityMapping: any = {
+    1: "Walking",
+    2: "Walking Upstairs",
+    3: "Walking Downstairs",
+    4: "Sitting",
+    5: "Standing",
+    6: "Laying Down",
+  };
+  const [activityName, setActivityName] = useState("");
   const [accelData, setAccelData] = useState({ x: 0, y: 0, z: 0 });
   const [gyroData, setGyroData] = useState({ x: 0, y: 0, z: 0 });
   const [magData, setMagData] = useState({ x: 0, y: 0, z: 0 });
@@ -116,6 +125,7 @@ export default function App() {
 
       console.log("Received Response:", response.data.prediction.prediction); // Log the response
       setPrediction(response.data.prediction.prediction); // Use the backend response for prediction
+      setActivityName(activityMapping[response.data.prediction.prediction]);
     } catch (error: any) {
       console.log("Request Failed: ", error.message); // Log the error in case of failure
       Alert.alert("Error", "Prediction failed: " + error.message);
@@ -132,7 +142,7 @@ export default function App() {
           <Text>{recording ? "Recording..." : "Start Recording"}</Text>
         </TouchableOpacity>
       </View>
-      <Text style={styles.text}>Prediction: {prediction}</Text>
+      <Text style={styles.text}>Prediction: {activityName || "None"}</Text>
     </View>
   );
 }
