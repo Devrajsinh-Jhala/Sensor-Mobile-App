@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+pydantic
+scipy
+numpy
+pandas
+scikit-learn
+python-multipart  # Needed for file uploads (in case your FastAPI app handles files)
+joblib
